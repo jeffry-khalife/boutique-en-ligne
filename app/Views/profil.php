@@ -1,4 +1,5 @@
 <?php
+// Pas besoin de session_start() ici
 if (!isset($_SESSION['user'])) {
     header('Location: ?page=login');
     exit;
@@ -20,6 +21,8 @@ $user = $_SESSION['user'];
 
         <div class="space-y-2">
             <p><strong>Email :</strong> <?= htmlspecialchars($user['mail']) ?></p>
+            <p><strong>Adresse :</strong> <?= htmlspecialchars($user['adress']) ?></p>
+            <p><strong>Numéro :</strong> <?= htmlspecialchars($user['phone_number']) ?></p>
             <p><strong>Rôle :</strong> <?= htmlspecialchars($user['role']) ?></p>
         </div>
 
