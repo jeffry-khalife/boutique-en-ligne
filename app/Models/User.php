@@ -19,7 +19,7 @@ class User {
         $this->password = isset($data['password']) ? $data['password'] : '';
         $this->confirmPassword = isset($data['confirmPassword']) ? $data['confirmPassword'] : '';
         $this->adress = isset($data['adress']) ? htmlspecialchars($data['adress']) : '';
-        $this->phone_number = isset($data['phone_number']) ? intval($data['phone_number']) : 0;
+        $this->phone_number = isset($data['phone_number']) ? intval($data['phone_number']) : '';
     }
 
     public function register(): string {
@@ -58,6 +58,8 @@ class User {
             $_SESSION['user'] = [
                 'username' => $this->username,
                 'mail' => $this->mail,
+                'adress' => $this->adress,
+                'phone_number' => $this->phone_number,
                 'role' => 'user'
             ];
             
@@ -90,6 +92,8 @@ class User {
                 'id' => $user['id'],
                 'username' => $user['username'],
                 'mail' => $user['mail'],
+                'adress' => $user['adress'],
+                'phone_number' => $user['phone_number'],
                 'role' => $user['role']
             ];
     
