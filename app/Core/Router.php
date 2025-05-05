@@ -4,7 +4,9 @@ namespace App\Core;
 
 class Router {
     public function handleRequest() {
-        $page = $_GET['page'] ?? 'login';
+        $page = $_GET['page'] ?? 'home';
+
+        $userLoggedIn = isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true;
 
         switch ($page) {
             case 'register':
@@ -13,21 +15,22 @@ class Router {
                 break;
 
             case 'login':
-            default:
                 $controller = new \App\Controllers\AuthController();
                 $controller->login();
                 break;
 
-            case 'logout':
-                $controller = new \App\Controllers\AuthController();
-                $controller->logout();
+            case 'home':
+            default:
+                $controller = new \App\Controllers\HomeController();
+                $controller->index(); 
                 break;
 
-            case 'profil':
-                $controller = new \App\Controllers\UserController();
-                $controller->profil();
+            case 'ajouter_panier':
+                $controller = new \App\Controllers\CartController();
+                $controller->addToCart(); 
                 break;
-            }
         }
+    }
 }
+
 ?>
