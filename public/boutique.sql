@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `category`
 --
-
+-- Structure de la table `category`
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -34,25 +34,24 @@ CREATE TABLE IF NOT EXISTS `category` (
   `year` int NOT NULL,
   `console` varchar(191) NOT NULL,
   `type` varchar(191) NOT NULL,
-  `idProduct` int NOT NULL,
+  `idGame` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idProduct` (`idProduct`)
+  KEY `idGame` (`idGame`),
+  CONSTRAINT `category_ibfk_1` FOREIGN KEY (`idGame`) REFERENCES `game` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `console`
 --
-
 DROP TABLE IF EXISTS `console`;
 CREATE TABLE IF NOT EXISTS `console` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(191) NOT NULL,
   `description` varchar(191) NOT NULL,
-  `idProduct` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idProduct` (`idProduct`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -75,6 +74,12 @@ CREATE TABLE IF NOT EXISTS `game` (
   PRIMARY KEY (`id`),
   KEY `idUser` (`idUser`)
 ) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+INSERT INTO `console` (`name`, `description`) VALUES
+('NES', 'Console de jeu de salon développée par Nintendo'),
+('SNES', 'Console de jeu de salon développée par Nintendo');
+
 
 --
 -- Déchargement des données de la table `game`
@@ -131,11 +136,11 @@ INSERT INTO `game` (`id`, `name`, `info`, `image`, `price`, `quantity`, `availab
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `idProduct` int NOT NULL,
+  `idGame` int NOT NULL,
   `idUser` int NOT NULL,
   `idPayment` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idProduct` (`idProduct`,`idUser`,`idPayment`)
+  KEY `idGame` (`idGame`,`idUser`,`idPayment`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -163,9 +168,9 @@ CREATE TABLE IF NOT EXISTS `payment` (
 DROP TABLE IF EXISTS `shoppingcart`;
 CREATE TABLE IF NOT EXISTS `shoppingcart` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `idProduct` int NOT NULL,
+  `idGame` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idProduct` (`idProduct`)
+  KEY `idGame` (`idGame`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -183,17 +188,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `adress` varchar(191) NOT NULL,
   `phone_number` int NOT NULL,
   `role` enum('admin','user') NOT NULL DEFAULT 'user',
-  `idProduct` int NOT NULL,
+  `idGame` int NOT NULL,
   `idOrder` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idProduct` (`idProduct`,`idOrder`)
+  KEY `idGame` (`idGame`,`idOrder`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `mail`, `password`, `adress`, `phone_number`, `role`, `idProduct`, `idOrder`) VALUES
+INSERT INTO `user` (`id`, `username`, `mail`, `password`, `adress`, `phone_number`, `role`, `idGame`, `idOrder`) VALUES
 (6, 'test', 'test@gmail', '$2y$10$zjHh13ufaEVv7XzLnZE4d.pl1KCTxlCPNs4TaFv4ZYjeyMScQcsyy', 'test ', 3, 'user', 0, 0),
 (17, 'a', 'a@a', '$2y$10$sDiIVzffv1yun4UGpg7.QO8S3xeaEExdDQlaaHd/cpyS8u1Vlv5iK', 'a', 2, 'user', 0, 0),
 (20, 'b', 'b@b', '$2y$10$3qrqwkqM6grvcXMrMww3d.Wm6ipCfPQEN3RouhZymphhDTz2kcdT.', 'b', 4, 'user', 0, 0);
@@ -206,19 +211,19 @@ INSERT INTO `user` (`id`, `username`, `mail`, `password`, `adress`, `phone_numbe
 -- Contraintes pour la table `category`
 --
 ALTER TABLE `category`
-  ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`idProduct`) REFERENCES `game` (`id`);
+  ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`idGame`) REFERENCES `game` (`id`);
 
 --
 -- Contraintes pour la table `console`
 --
 ALTER TABLE `console`
-  ADD CONSTRAINT `console_ibfk_1` FOREIGN KEY (`idProduct`) REFERENCES `game` (`id`);
+  ADD CONSTRAINT `console_ibfk_1` FOREIGN KEY (`idGame`) REFERENCES `game` (`id`);
 
 --
 -- Contraintes pour la table `shoppingcart`
 --
 ALTER TABLE `shoppingcart`
-  ADD CONSTRAINT `shoppingcart_ibfk_1` FOREIGN KEY (`idProduct`) REFERENCES `game` (`id`);
+  ADD CONSTRAINT `shoppingcart_ibfk_1` FOREIGN KEY (`idGame`) REFERENCES `game` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
