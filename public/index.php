@@ -46,9 +46,11 @@ $router->handleRequest();
 
                     $consoleFilter = isset($_GET['console']) ? $_GET['console'] : '';
 
-                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                    $perPage = 6;
-                    $offset = ($page - 1) * $perPage;
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;  
+                    $page = max(1, $page);  
+                    
+                    $perPage = 6; 
+                    $offset = ($page - 1) * $perPage; 
 
                     $game = new Game();
                     $games = $game->getGames($consoleFilter, $offset, $perPage);
@@ -59,12 +61,12 @@ $router->handleRequest();
                         echo '<h3 class="text-lg font-semibold">' . $g['name'] . '</h3>';
                         echo '<p class="text-sm text-gray-600">' . $g['info'] . '</p>';
                         echo '<p class="text-xl font-bold mt-2">€' . number_format($g['price'], 2) . '</p>';
-
-                        echo '<form method="POST" action="index.php">';
+                    
+                        echo '<form method="POST" action="index.php?page=ajouter_panier">';
                         echo '<input type="hidden" name="game_id" value="' . $g['id'] . '">';
                         echo '<button type="submit" class="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Ajouter au panier</button>';
                         echo '</form>';
-
+                    
                         echo '</div>';
                     }
                     ?>

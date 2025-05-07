@@ -26,8 +26,24 @@ class Router {
                 break;
 
             case 'ajouter_panier':
-                $controller = new \App\Controllers\CartController();
-                $controller->addToCart(); 
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {  
+                    $controller = new \App\Controllers\CartController();
+                    $controller->addToCart();  
+                }
+                break;
+
+            case 'supprimer_panier':
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {  
+                    $controller = new \App\Controllers\CartController();
+                    $controller->removeFromCart();  
+                }
+                break;
+
+            case 'vider_panier':
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
+                    $controller = new \App\Controllers\CartController();
+                    $controller->clearCart();  
+                }
                 break;
         }
     }
