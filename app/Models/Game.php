@@ -21,14 +21,14 @@ class Game {
         if ($consoleFilter && isset($consoleMapping[$consoleFilter])) {
             $consoleFilter = $consoleMapping[$consoleFilter];
         } else {
-            $consoleFilter = '';  
+            $consoleFilter = '';
         }
     
         $sql = "SELECT * FROM game";
         $params = [];
     
         if ($consoleFilter) {
-            $sql .= " WHERE idconsole = :console"; 
+            $sql .= " WHERE idConsole = :console"; 
             $params['console'] = $consoleFilter;
         }
     
@@ -37,7 +37,7 @@ class Game {
         $stmt = $this->db->prepare($sql);
     
         if ($consoleFilter) {
-            $stmt->bindParam(':console', $params['console'], PDO::PARAM_INT); 
+            $stmt->bindParam(':console', $params['console'], PDO::PARAM_INT);
         }
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->bindParam(':perPage', $perPage, PDO::PARAM_INT);
@@ -46,6 +46,7 @@ class Game {
     
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     
     
 
@@ -65,7 +66,7 @@ class Game {
         $params = [];
     
         if ($consoleFilter) {
-            $sql .= " WHERE idconsole = :console";
+            $sql .= " WHERE idConsole = :console";
             $params['console'] = $consoleFilter;
         }
     
@@ -78,7 +79,24 @@ class Game {
         return $stmt->fetchColumn();
     }
     
+    public function searchByName($term) {
+        $sql = "SELECT id, name FROM game WHERE name LIKE :term LIMIT 10";
+        $stmt = $this->db->prepare($sql);
+        $like = '%' . $term . '%';
+        $stmt->bindParam(':term', $like, \PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC); 
+    }
     
-    
+    public function getGameById($id) {
+        $sql = "SELECT game.*, console.name AS console_name 
+                FROM game 
+                JOIN console ON game.idConsole = console.id
+                WHERE game.id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }  
 }
 ?>
