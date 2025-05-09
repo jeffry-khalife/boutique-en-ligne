@@ -33,15 +33,50 @@ class CartController {
             $cart = new ShoppingCart();
             $cart->removeFromCart($gameId);
         }
-        header('Location: shopping.php');  
+        header('Location: ?page=shopping');  
         exit;
     }
 
     public function clearCart() {
         $cart = new ShoppingCart();
         $cart->clearCart();
-        header('Location: shopping.php');
+        header('Location: ?page=shopping');
         exit;
     }
+
+    public function showCart() {
+        $cart = new \App\Models\ShoppingCart();
+        $cartItems = $cart->getCartItems();
+        require __DIR__ . '/../Views/shopping.php'; 
+    }
+
+    public function addToCartAjax() {
+        header('Content-Type: application/json');
+        $response = ['success' => false, 'message' => 'Erreur inconnue'];
+    
+        if (isset($_POST['game_id'])) {
+            $gameId = (int)$_POST['game_id'];
+            $cart = new \App\Models\ShoppingCart();
+    
+            if (isset($_SESSION['user_id'])) {
+                $cart->addToCart($gameId);
+            } else {
+                if (!isset($_SESSION['cart'])) {
+                    $_SESSION['cart'] = [];
+                }
+                if (!in_array($gameId, $_SESSION['cart'])) {
+                    $_SESSION['cart'][] = $gameId;
+                }
+            }
+            $response = ['success' => true, 'message' => 'Jeu ajouté au panier !'];
+        } else {
+            $response['message'] = "Aucun jeu sélectionné.";
+        }
+    
+        echo json_encode($response);
+        exit;
+    }
+    
+    
 }
 ?>
