@@ -4,9 +4,11 @@ namespace App\Core;
 
 class Router {
     public function handleRequest() {
-        $page = $_GET['page'] ?? 'home';
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start(); 
+        }
 
-        $userLoggedIn = isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true;
+        $page = $_GET['page'] ?? 'home';
 
         switch ($page) {
             case 'register':
@@ -19,12 +21,21 @@ class Router {
                 $controller->login();
                 break;
 
-            case 'home':
-            default:
-                $controller = new \App\Controllers\HomeController();
+            case 'logout': 
+                $controller = new \App\Controllers\AuthController();
+                $controller->logout();
+                break;
+
+            case 'profil':
+                $controller = new \App\Controllers\ProfilController();
                 $controller->index(); 
                 break;
 
+            case 'shopping':
+                $controller = new \App\Controllers\CartController();
+                $controller->showCart();
+                break;
+              
             case 'ajouter_panier':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {  
                     $controller = new \App\Controllers\CartController();
@@ -45,6 +56,33 @@ class Router {
                     $controller->clearCart();  
                 }
                 break;
+
+            case 'home':
+            default:
+                $controller = new \App\Controllers\HomeController();
+                $controller->index(); 
+                break;
+
+            case 'checkout':
+                $controller = new \App\Controllers\CheckoutController();
+                $controller->index();
+                break;
+
+            case 'autocomplete':
+                $controller = new \App\Controllers\GameController();
+                $controller->autocomplete();
+                break;
+
+            case 'game': 
+                $controller = new \App\Controllers\GameController();
+                $controller->show();
+                break;
+                
+            case 'ajouter_panier_ajax':
+                $controller = new \App\Controllers\CartController();
+                $controller->addToCartAjax();
+                break;
+                   
         }
     }
 }
