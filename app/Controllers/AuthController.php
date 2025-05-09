@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Core\Database;
 use App\Models\User;
 
 class AuthController {
@@ -12,20 +11,24 @@ class AuthController {
             $data = json_decode($jsonData, true);
     
             if (is_array($data)) {
-                $user = new \App\Models\User();
+                $user = new User();
                 $user->setData($data);
     
-                // ➤ Vérifie ici
+                header('Content-Type: application/json');
                 echo $user->register();
+                exit; 
             } else {
-                echo "❌ Erreur de format JSON.";
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "success" => false,
+                    "message" => "❌ Erreur de format JSON."
+                ]);
+                exit;
             }
-            return;
         }
-    
-        require '../app/Views/register.php';
+
+        require __DIR__ . '/../Views/register.php';
     }
-      
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,27 +36,33 @@ class AuthController {
             $data = json_decode($jsonData, true);
     
             if (isset($data['mail'], $data['password'])) {
-                $user = new \App\Models\User();
-                $user->setData($data);  
-                $message = $user->login(); 
-                echo $message;  
+                $user = new User();
+                $user->setData($data);
+
+                header('Content-Type: application/json');
+                echo $user->login();
+                exit; 
             } else {
-                echo "❌ Données manquantes.";
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "success" => false,
+                    "message" => "❌ Données manquantes."
+                ]);
+                exit;
             }
-            return;
         }
-    
-        require '../app/Views/login.php';
+
+        require __DIR__ . '/../Views/login.php';
     }
-    
-       
+
     public function logout() {
         session_start();
-        session_unset();
-        session_destroy();
-    
+        session_unset(); 
+        session_destroy(); 
+        
         header('Location: ?page=login');
         exit;
     }
+    
 }
 ?>
