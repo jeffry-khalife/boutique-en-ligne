@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 if (result.success) {
                     setTimeout(() => {
-                        window.location.href = "/boutique-en-ligne/?page=profil";
+                        window.location.href = "/boutique-en-ligne/?page=home";
                     }, 1000);
                 }
                 
