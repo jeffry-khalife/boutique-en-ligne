@@ -102,8 +102,8 @@ class User {
                 "message" => "✅ Connexion réussie ! Redirection en cours..."
             ]);
     
-            header("Location: /profil.php"); 
-            exit(); 
+            // header("Location: /profil.php"); 
+            // exit(); 
         } else {
             return json_encode([
                 "success" => false,
@@ -111,6 +111,41 @@ class User {
             ]);
         }
     }
+
+    public function getAllUsers() {
+        $pdo = \App\Core\Database::getInstance();
+        $stmt = $pdo->query("SELECT id, username, mail, adress, phone_number, role FROM user");
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function deleteUser($userId) {
+        $pdo = \App\Core\Database::getInstance();
+        $stmt = $pdo->prepare("DELETE FROM user WHERE id = ?");
+        $stmt->execute([$userId]);
+    }
+
+    public function updateUserRole($userId, $role) {
+    $pdo = \App\Core\Database::getInstance();
+    $stmt = $pdo->prepare("UPDATE user SET role = ? WHERE id = ?");
+    $stmt->execute([$role, $userId]);
+    }
+
+    public function addUser($username, $mail, $password, $adress, $phone, $role) {
+    $pdo = \App\Core\Database::getInstance();
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $stmt = $pdo->prepare("INSERT INTO user (username, mail, password, adress, phone_number, role) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$username, $mail, $hashedPassword, $adress, $phone, $role]);
+    }
+
+    public function searchUsers($search) {
+    $pdo = \App\Core\Database::getInstance();
+    $like = '%' . $search . '%';
+    $stmt = $pdo->prepare("SELECT id, username, mail, adress, phone_number, role FROM user WHERE username LIKE ? OR mail LIKE ?");
+    $stmt->execute([$like, $like]);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
     
 }
 ?>
