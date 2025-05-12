@@ -31,6 +31,10 @@ class Router {
                 $controller->index(); 
                 break;
 
+            case 'welcome':
+                require __DIR__ . '/../Views/welcome.php';
+                break;
+
             case 'shopping':
                 $controller = new \App\Controllers\CartController();
                 $controller->showCart();
@@ -63,6 +67,57 @@ class Router {
                 $controller->index(); 
                 break;
 
+            case 'admin':
+                $controller = new \App\Controllers\AdminController();
+                $controller->index();
+                break;
+
+            case 'admin_users':
+                $controller = new \App\Controllers\AdminUsersController();
+                $controller->index();
+                break;
+
+            case 'admin_users_delete':
+                $controller = new \App\Controllers\AdminUsersController();
+                $controller->delete();
+                break;
+
+            case 'admin_users_role':
+                $controller = new \App\Controllers\AdminUsersController();
+                $controller->changeRole();
+                break;
+
+            case 'admin_users_add':
+                $controller = new \App\Controllers\AdminUsersController();
+                $controller->add();
+                break;
+
+            case 'admin_orders':
+                $controller = new \App\Controllers\AdminOrdersController();
+                $controller->index();
+                break;
+            case 'admin_orders_update':
+                $controller = new \App\Controllers\AdminOrdersController();
+                $controller->updateStatus();
+                break;
+                
+            case 'admin_products':
+                $controller = new \App\Controllers\AdminProductsController();
+                $controller->index();
+                break;
+            case 'admin_products_add':
+                $controller = new \App\Controllers\AdminProductsController();
+                $controller->add();
+                break;
+            case 'admin_products_edit':
+                $controller = new \App\Controllers\AdminProductsController();
+                $controller->edit();
+                break;
+            case 'admin_products_delete':
+                $controller = new \App\Controllers\AdminProductsController();
+                $controller->delete();
+                break;
+                
             case 'checkout':
                 $controller = new \App\Controllers\CheckoutController();
                 $controller->index();
@@ -82,7 +137,22 @@ class Router {
                 $controller = new \App\Controllers\CartController();
                 $controller->addToCartAjax();
                 break;
-                   
+            
+            case 'parametres':
+                $controller = new \App\Controllers\ParametresController();
+                $controller->index();
+                break;
+
+            case 'commandes':
+                $controller = new \App\Controllers\CommandesController();
+                $controller->index();
+                break;
+
+            case 'facture':
+                $controller = new \App\Controllers\CommandesController();
+                $controller->facture();
+                break;
+
         }
     }
 }
