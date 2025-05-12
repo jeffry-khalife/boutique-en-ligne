@@ -13,6 +13,16 @@ class ShoppingCart {
     }
 
     public function addToCart($gameId) {
+        $stmt = $this->db->prepare("SELECT availability FROM game WHERE id = :id");
+        $stmt->bindParam(':id', $gameId, \PDO::PARAM_INT);
+        $stmt->execute();
+        $availability = $stmt->fetchColumn();
+
+        if (!$availability) {
+            $_SESSION['error'] = "Ce jeu est actuellement indisponible.";
+            return false;
+        }
+
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
@@ -28,6 +38,8 @@ class ShoppingCart {
             $stmt->bindParam(':user_id', $_SESSION['user_id'], \PDO::PARAM_INT);
             $stmt->execute();
         }
+
+        return true;
     }
 
     public function removeFromCart($gameId) {
