@@ -8,11 +8,13 @@
 </head>
 <body class="bg-gray-100">
 
-     <nav class="bg-white shadow px-4 py-2 flex items-center justify-between">
+     <nav
+  class="w-full flex items-center justify-between px-4 h-16 overflow-visible border-b-4 border-black shadow-2xl"
+  style="background-color: #b6b9ff; font-family: 'Press Start 2P', monospace;">
+
     <a href="?page=home">
         <div class="flex items-center space-x-2">
-            <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Logo" class="h-8 w-8">
-            <span class="font-bold text-xl text-gray-800">RetroGames</span>
+            <img src="public/images/retro-gaming.png"alt="Logo"class="h-32 w-auto -mt-2">
         </div>
     </a>
     <div id="searchBarContainer" class="flex-1 mx-4 hidden relative">
@@ -76,10 +78,16 @@
     </div>
 </nav>
 
-    <div class="max-w-7xl mx-auto py-8">
-
-        <div class="flex">
-            <div class="w-1/4 bg-white p-4 rounded shadow-lg">
+<div class="flex min-h-screen">
+  <aside id="sidebar" class="fixed top-16 bottom-0 left-0 z-40 w-64 transform -translate-x-full
+         transition-transform duration-300 border-r-4 border-black shadow-2xl p-6"
+  style="background-color: #b6b9ff; font-family: 'Press Start 2P', monospace;" >
+  
+    <button id="sidebarToggle" class="absolute top-4 -right-6 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l-7 7 7 7" />
+      </svg>
+    </button>
                 <h2 class="text-xl font-bold">Filtres</h2>
                 <form method="GET">
                     <div class="mt-4">
@@ -88,16 +96,21 @@
                             <option value="">Tous</option>
                             <option value="NES" <?php echo isset($_GET['console']) && $_GET['console'] == 'NES' ? 'selected' : ''; ?>>NES</option>
                             <option value="SNES" <?php echo isset($_GET['console']) && $_GET['console'] == 'SNES' ? 'selected' : ''; ?>>SNES</option>
+                            <option value="SEGA" <?php echo isset($_GET['console']) && $_GET['console'] == 'SEGA' ? 'selected' : ''; ?>>SEGA</option>
+                            <option value="GameBoy" <?php echo isset($_GET['console']) && $_GET['console'] == 'Gamboy' ? 'selected' : ''; ?>>GameBoy</option>
+                            <option value="Playstation1" <?php echo isset($_GET['console']) && $_GET['console'] == 'Playstation1' ? 'selected' : ''; ?>>Playstation1</option>
+                            <option value="Nintendo64" <?php echo isset($_GET['console']) && $_GET['console'] == 'Nintendo64' ? 'selected' : ''; ?>>Nintendo64</option>
                         </select>
                     </div>
                     <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Appliquer</button>
                 </form>
-            </div>
+        </aside>
 
-            <div class="w-3/4 pl-8">
-                <h1 class="text-3xl font-bold mb-4">Jeux en vente</h1>
+            <div class="flex-1 ">
+                <div class="max-w-screen-xl mx-auto px-4 py-8">
+                <h1 class="text-3xl font-bold mb-6">Jeux en vente</h1>
 
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 ">
                     <?php
                     use App\Models\Game;
 
@@ -164,6 +177,7 @@
     </div>
 
     <script src="/boutique-en-ligne/public/assets/js/navbar.js"></script>
+    <script src="/boutique-en-ligne/public/assets/js/sidebar.js"></script>
 
 </body>
 </html>

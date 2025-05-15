@@ -16,6 +16,10 @@ class Game {
         $consoleMapping = [
             'NES' => 1,
             'SNES' => 2,
+            'SEGA' => 3,
+            'GameBoy' => 4,
+            'Playstation1' => 5,
+            'Nintendo64' => 6,
         ];
     
         if ($consoleFilter && isset($consoleMapping[$consoleFilter])) {
@@ -54,6 +58,10 @@ class Game {
         $consoleMapping = [
             'NES' => 1,
             'SNES' => 2,
+            'SEGA' => 3,
+            'GameBoy' => 4,
+            'Playstation1' => 5,
+            'Nintendo64' => 6,
         ];
     
         if ($consoleFilter && isset($consoleMapping[$consoleFilter])) {

@@ -14,11 +14,12 @@ $user = $_SESSION['user'];
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-      <nav class="bg-white shadow px-4 py-2 flex items-center justify-between">
+    <nav
+  class="w-full flex items-center justify-between px-4 h-16 overflow-visible border-b-4 border-black shadow-2xl"
+  style="background-color: #b6b9ff; font-family: 'Press Start 2P', monospace;">
     <a href="?page=home">
         <div class="flex items-center space-x-2">
-            <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Logo" class="h-8 w-8">
-            <span class="font-bold text-xl text-gray-800">RetroGames</span>
+           <img src="public/images/retro-gaming.png"alt="Logo"class="h-32 w-auto -mt-2">
         </div>
     </a>
     <div id="searchBarContainer" class="flex-1 mx-4 hidden relative">
